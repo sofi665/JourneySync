@@ -1,0 +1,67 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* =========================
+   DESIGN TOKENS (MODERN LIGHT - VIOLET & GREEN)
+========================= */
+
+:root {
+  color-scheme: light;
+
+  /* Fondo neutro ultra limpio con un toque crema levísimo */
+  --background: oklch(0.98 0.005 280);
+  --foreground: oklch(0.18 0.03 290);
+
+  /* Tarjetas totalmente blancas para resaltar sobre el fondo */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.03 290);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.03 290);
+
+  /* El Violeta Eléctrico de la imagen aprobada */
+  --primary: oklch(0.55 0.28 290);
+  --primary-foreground: oklch(0.99 0.005 0);
+
+  /* El Verde Esmeralda/Menta para acciones y estados estéticos */
+  --secondary: oklch(0.45 0.15 165);
+  --secondary-foreground: oklch(0.99 0.005 0);
+
+  /* Tonos muted y bordes limpios */
+  --muted: oklch(0.95 0.01 280);
+  --muted-foreground: oklch(0.50 0.02 280);
+
+  --accent: oklch(0.95 0.02 165);
+  --accent-foreground: oklch(0.35 0.12 165);
+
+  --border: oklch(0.92 0.01 280);
+  --input: oklch(0.92 0.01 280);
+
+  --ring: oklch(0.55 0.28 290);
+
+  /* Bordes amigables y redondeados de interfaz moderna */
+  --radius: 1rem;
+}
+
+/* =========================
+   BASE GLOBAL STYLES
+========================= */
+
+@layer base {
+  * {
+    /* Corregido: Usamos var() nativo para evitar que Tailwind v4 se queje al compilar */
+    border-color: var(--border);
+    outline-color: var(--ring);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+
+  html {
+    @apply font-sans;
+  }
+}
