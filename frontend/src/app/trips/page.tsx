@@ -6,10 +6,8 @@ import { Plus, Luggage, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { TripCard } from "@/components/trip-card"
 import { EmptyState } from "@/components/empty-state"
-import {Trip} from "@/types/trip";
-import {tripsService} from "@/services/trip.service";
-
-
+import { Trip } from "@/types/trip"
+import { tripsService } from "@/services/trip.service"
 
 export default function TripsPage() {
     const [trips, setTrips] = useState<Trip[]>([])
@@ -29,26 +27,35 @@ export default function TripsPage() {
     }, [])
 
     return (
-        <section>
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                    <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+        <section className="mx-auto max-w-6xl px-4 py-10 md:py-14">
+            {/* Header con más aire y jerarquía */}
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-border/40 pb-8">
+                <div className="space-y-1">
+                    <h1 className="text-4xl font-extrabold tracking-tight text-foreground md:text-4xl">
                         Mis viajes
                     </h1>
-                    <p className="mt-1 text-sm text-muted-foreground">
+                    <p className="text-base text-muted-foreground">
                         Gestiona y organiza todas tus aventuras desde un solo lugar.
                     </p>
                 </div>
-                <Button render={<Link href="/trips/create" />} nativeButton={false}>
-                    <Plus className="h-4 w-4" />
+
+                {/* Botón Crear Viaje Verde y estilizado */}
+                <Button
+                    render={<Link href="/trips/create" />}
+                    nativeButton={false}
+                    className="bg-emerald-500 text-white hover:bg-emerald-600 border-none rounded-full px-5 py-5 font-semibold shadow-sm sm:w-auto w-full justify-center gap-2 transition-transform active:scale-95"
+                >
+                    <Plus className="h-5 w-5 stroke-[2.5]" />
                     Crear viaje
                 </Button>
             </div>
 
-            <div className="mt-8">
+            {/* Contenedor del listado con excelente espaciado */}
+            <div className="mt-12">
                 {loading ? (
-                    <div className="flex items-center justify-center py-20 text-muted-foreground">
-                        <Loader2 className="h-6 w-6 animate-spin" />
+                    <div className="flex flex-col items-center justify-center py-32 text-muted-foreground gap-3">
+                        <Loader2 className="h-8 w-8 animate-spin text-emerald-500" />
+                        <p className="text-sm font-medium animate-pulse">Cargando tus aventuras...</p>
                     </div>
                 ) : trips.length === 0 ? (
                     <EmptyState
@@ -57,7 +64,8 @@ export default function TripsPage() {
                         description="Crea tu primer viaje para empezar a planificar con tu equipo."
                     />
                 ) : (
-                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                    /* Grilla con mejor responsive, gaps amplios y sombras fluidas */
+                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 animate-fade-in">
                         {trips.map((trip) => (
                             <TripCard key={trip.id} trip={trip} />
                         ))}

@@ -10,26 +10,34 @@ interface EmptyStateProps {
 }
 
 export function EmptyState({
-  icon: Icon,
-  title,
-  description,
-  actionLabel,
-  onAction,
-}: EmptyStateProps) {
+                             icon: Icon,
+                             title,
+                             description,
+                             actionLabel,
+                             onAction,
+                           }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border bg-muted/40 px-6 py-10 text-center">
-      <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-accent text-accent-foreground">
-        <Icon className="h-6 w-6" aria-hidden="true" />
-      </span>
-      <p className="text-sm font-medium text-foreground">{title}</p>
-      {description && (
-        <p className="mt-1 max-w-sm text-sm text-muted-foreground">{description}</p>
-      )}
-      {actionLabel && onAction && (
-        <Button onClick={onAction} variant="outline" size="sm" className="mt-4">
-          {actionLabel}
-        </Button>
-      )}
-    </div>
+      <div className="flex min-h-[400px] flex-col items-center justify-center rounded-3xl border border-dashed border-border bg-muted/30 px-8 py-16 text-center transition-all">
+        {/* Contenedor preparado para Ilustración o Icono grande */}
+        <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500">
+          <Icon className="h-10 w-10" aria-hidden="true" />
+        </div>
+
+        <h3 className="text-xl font-bold tracking-tight text-foreground">{title}</h3>
+
+        {description && (
+            <p className="mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">{description}</p>
+        )}
+
+        {actionLabel && onAction && (
+            <Button
+                onClick={onAction}
+                size="default"
+                className="mt-8 bg-emerald-500 text-white hover:bg-emerald-600 border-none shadow-sm font-semibold px-5"
+            >
+              {actionLabel}
+            </Button>
+        )}
+      </div>
   )
 }
