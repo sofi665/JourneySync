@@ -17,7 +17,9 @@ import {
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { ParticipantCard } from "@/components/participant-card"
+import { AddParticipantModal } from "@/components/add-participant-modal"
 import { EmptyState } from "@/components/empty-state"
+import { useParticipants } from "@/hooks/useParticipants"
 
 import { formatDate } from "@/lib/format"
 import {tripsService} from "@/services/trip.service";
@@ -31,6 +33,13 @@ export default function TripDetailPage({
     const { id } = use(params)
     const [trip, setTrip] = useState<TripDetail | null>(null)
     const [loading, setLoading] = useState(true)
+    const [isAddParticipantOpen, setIsAddParticipantOpen] = useState(false)
+    const {
+        participants,
+        loading: participantsLoading,
+        error: participantsError,
+        createParticipant,
+    } = useParticipants(id)
 
     useEffect(() => {
         let active = true
@@ -111,13 +120,28 @@ export default function TripDetailPage({
                 icon={Users}
                 title="Participantes"
                 action={
-                    <Button size="sm" variant="outline">
+                    <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => setIsAddParticipantOpen(true)}
+                    >
                         <UserPlus className="h-4 w-4" />
-                        Invitar participante
+                        Agregar participante
                     </Button>
                 }
             >
-                {trip.participants.length === 0 ? (
+                {participantsLoading ? (
+                    <div className="flex items-center justify-center py-10 text-muted-foreground">
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                    </div>
+                ) : participantsError ? (
+                    <div
+                        className="rounded-xl border border-destructive/20 bg-destructive/10 p-3.5 text-sm font-medium text-destructive"
+                        role="alert"
+                    >
+                        {participantsError}
+                    </div>
+                ) : participants.length === 0 ? (
                     <EmptyState
                         icon={Users}
                         title="No hay participantes todavía"
@@ -125,12 +149,18 @@ export default function TripDetailPage({
                     />
                 ) : (
                     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                        {trip.participants.map((participant) => (
+                        {participants.map((participant) => (
                             <ParticipantCard key={participant.id} participant={participant} />
                         ))}
                     </div>
                 )}
             </TripSection>
+
+            <AddParticipantModal
+                open={isAddParticipantOpen}
+                onClose={() => setIsAddParticipantOpen(false)}
+                onSubmit={createParticipant}
+            />
 
             {/* Activities */}
             <TripSection

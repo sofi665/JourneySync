@@ -3,10 +3,7 @@ package JourneySync.demo.dto.request;
 import JourneySync.demo.entity.Role;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.UUID;
-
-public record CreateParticipantRequest(
-        @NotNull UUID userId,
+public record UpdateParticipantRequest(
         @NotNull Role role
 ) {
 }

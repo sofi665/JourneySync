@@ -1,19 +1,29 @@
 package JourneySync.demo.service;
 
+import JourneySync.demo.dto.ParticipantResponse;
 import JourneySync.demo.dto.request.CreateParticipantRequest;
-import JourneySync.demo.entity.Participant;
-import JourneySync.demo.entity.Role;
+import JourneySync.demo.dto.request.UpdateParticipantRequest;
 import jakarta.transaction.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface ParticipantService {
 
+    @Transactional
+    ParticipantResponse addParticipant(UUID tripId, CreateParticipantRequest request);
 
+    List<ParticipantResponse> getParticipantsByTripId(UUID tripId);
+
+    ParticipantResponse getParticipantById(UUID tripId, UUID participantId);
 
     @Transactional
-    Participant addParticipant(
+    ParticipantResponse updateParticipant(
             UUID tripId,
-            CreateParticipantRequest request
+            UUID participantId,
+            UpdateParticipantRequest request
     );
+
+    @Transactional
+    void deleteParticipant(UUID tripId, UUID participantId);
 }

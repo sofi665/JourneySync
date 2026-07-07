@@ -6,3 +6,12 @@ export interface Participant {
     role: ParticipantRole
 }
 export type ParticipantRole = "ADMIN" | "EDITOR" | "VIEWER"
+
+export interface CreateParticipantRequest {
+    userId: string
+    role: ParticipantRole
+}
+
+export interface UpdateParticipantRequest {
+    role: ParticipantRole
+}
