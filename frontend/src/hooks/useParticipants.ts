@@ -1,11 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 
 import { participantService } from "@/services/participant.service";
-import {
-    Participant,
-    CreateParticipantRequest,
-    UpdateParticipantRequest,
-} from "@/features/participants/types";
+import {CreateParticipantRequest, Participant, UpdateParticipantRequest} from "@/types/participant";
+
 
 export function useParticipants(tripId: string) {
 

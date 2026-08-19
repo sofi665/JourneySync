@@ -1,4 +1,7 @@
-import {Activity, ChecklistItem, Expense, Participant} from "@/lib/types";
+import {Participant} from "@/types/participant";
+import {Activity} from "@/types/activity";
+import {Expense} from "@/types/expense";
+import {ChecklistItem} from "@/types/checklist";
 
 export interface Trip {
     id: string

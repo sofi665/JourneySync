@@ -1,77 +1,44 @@
-"use client";
-
-
 import { useEffect, useState } from "react";
 import { Trip } from "@/types/trip";
-import { getTrips } from "@/services/trip.service";
+import { tripsService } from "@/services/trip.service";
 
+export function useTrips() {
 
-export function useTrips(){
+    const [trips, setTrips] = useState<Trip[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
+    useEffect(() => {
 
-    const [trips,setTrips] = useState<Trip[]>([]);
-
-
-    const [loading,setLoading] = useState(true);
-
-
-    const [error,setError] = useState<string | null>(null);
-
-
-
-    useEffect(()=>{
-
-
-        const fetchTrips = async()=>{
-
+        const fetchTrips = async () => {
 
             try {
 
-
-                const data = await getTrips();
-
+                const data = await tripsService.getTrips();
 
                 setTrips(data);
 
-
-            } catch(error){
-
+            } catch (error) {
 
                 setError(
                     "No se pudieron cargar los viajes"
                 );
 
-
             } finally {
-
 
                 setLoading(false);
 
-
             }
-
 
         };
 
-
-
         fetchTrips();
 
-
-
-    },[]);
-
-
+    }, []);
 
     return {
-
         trips,
-
         loading,
-
         error
-
     };
-
-
 }
