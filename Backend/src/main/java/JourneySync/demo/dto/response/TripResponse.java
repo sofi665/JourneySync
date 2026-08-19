@@ -1,14 +1,12 @@
-package JourneySync.demo.dto;
-
-import lombok.Getter;
-import lombok.Setter;
+package JourneySync.demo.dto.response;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
-public record CreateTripRequest(
+public record TripResponse(
+        UUID id,
         String title,
         String description,
         LocalDate startDate,
         LocalDate endDate
-) {
-}
+) {}

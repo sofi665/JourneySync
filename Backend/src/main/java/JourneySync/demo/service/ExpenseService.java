@@ -1,6 +1,6 @@
 package JourneySync.demo.service;
 
-import JourneySync.demo.dto.CreateExpenseRequest;
+import JourneySync.demo.dto.request.CreateExpenseRequest;
 import JourneySync.demo.entity.*;
 import JourneySync.demo.repository.*;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package JourneySync.demo.dto;
+package JourneySync.demo.dto.request;
 
 import java.util.List;
 import java.util.UUID;

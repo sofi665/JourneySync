@@ -1,7 +1,7 @@
 package JourneySync.demo.service;
 
-import JourneySync.demo.dto.CreateTripRequest;
-import JourneySync.demo.dto.TripResponse;
+import JourneySync.demo.dto.request.CreateTripRequest;
+import JourneySync.demo.dto.response.TripResponse;
 import JourneySync.demo.entity.Trip;
 import JourneySync.demo.repository.TripRepository;
 import lombok.RequiredArgsConstructor;

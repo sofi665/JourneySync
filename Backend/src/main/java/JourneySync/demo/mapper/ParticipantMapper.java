@@ -1,7 +1,7 @@
 package JourneySync.demo.mapper;
 
-import JourneySync.demo.dto.ParticipantResponse;
-import JourneySync.demo.dto.UserResponse;
+import JourneySync.demo.dto.response.ParticipantResponse;
+import JourneySync.demo.dto.response.UserResponse;
 import JourneySync.demo.entity.Participant;
 import org.springframework.stereotype.Component;
 

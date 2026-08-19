@@ -1,62 +1,39 @@
-"use client";
-
-
 import { useCallback, useEffect, useState } from "react";
-import {
-    CreateParticipantRequest,
-    Participant,
-    UpdateParticipantRequest,
-} from "@/types/participant";
-import { participantsService } from "@/services/participant.service";
 
+import { participantService } from "@/services/participant.service";
+import {
+    Participant,
+    CreateParticipantRequest,
+    UpdateParticipantRequest,
+} from "@/features/participants/types";
 
 export function useParticipants(tripId: string) {
 
-
     const [participants, setParticipants] = useState<Participant[]>([]);
-
-
     const [loading, setLoading] = useState(true);
-
-
     const [error, setError] = useState<string | null>(null);
 
-
-
-    const fetchParticipants = useCallback(async () => {
-
+    const loadParticipants = useCallback(async () => {
 
         try {
 
-
             setLoading(true);
-
-
             setError(null);
 
-
-            const data = await participantsService.getParticipants(tripId);
-
+            const data =
+                await participantService.getParticipants(tripId);
 
             setParticipants(data);
 
-
         } catch {
 
-
-            setError(
-                "No se pudieron cargar los participantes"
-            );
-
+            setError("No se pudieron cargar los participantes.");
 
         } finally {
 
-
             setLoading(false);
 
-
         }
-
 
     }, [tripId]);
 
@@ -64,30 +41,28 @@ export function useParticipants(tripId: string) {
 
     useEffect(() => {
 
+        loadParticipants();
 
-        fetchParticipants();
-
-
-    }, [fetchParticipants]);
+    }, [loadParticipants]);
 
 
 
     const createParticipant = async (
         request: CreateParticipantRequest
-    ): Promise<Participant> => {
+    ) => {
 
+        const participant =
+            await participantService.createParticipant(
+                tripId,
+                request
+            );
 
-        const created = await participantsService.createParticipant(
-            tripId,
-            request
-        );
+        setParticipants((current) => [
+            ...current,
+            participant,
+        ]);
 
-
-        setParticipants((prev) => [...prev, created]);
-
-
-        return created;
-
+        return participant;
 
     };
 
@@ -96,27 +71,24 @@ export function useParticipants(tripId: string) {
     const updateParticipant = async (
         participantId: string,
         request: UpdateParticipantRequest
-    ): Promise<Participant> => {
+    ) => {
 
+        const updated =
+            await participantService.updateParticipant(
+                tripId,
+                participantId,
+                request
+            );
 
-        const updated = await participantsService.updateParticipant(
-            tripId,
-            participantId,
-            request
-        );
-
-
-        setParticipants((prev) =>
-            prev.map((participant) =>
+        setParticipants((current) =>
+            current.map((participant) =>
                 participant.id === participantId
                     ? updated
                     : participant
             )
         );
 
-
         return updated;
-
 
     };
 
@@ -124,21 +96,19 @@ export function useParticipants(tripId: string) {
 
     const deleteParticipant = async (
         participantId: string
-    ): Promise<void> => {
+    ) => {
 
-
-        await participantsService.deleteParticipant(
+        await participantService.deleteParticipant(
             tripId,
             participantId
         );
 
-
-        setParticipants((prev) =>
-            prev.filter(
-                (participant) => participant.id !== participantId
+        setParticipants((current) =>
+            current.filter(
+                (participant) =>
+                    participant.id !== participantId
             )
         );
-
 
     };
 
@@ -146,12 +116,13 @@ export function useParticipants(tripId: string) {
 
     return {
 
-
         participants,
 
         loading,
 
         error,
+
+        reload: loadParticipants,
 
         createParticipant,
 
@@ -159,9 +130,6 @@ export function useParticipants(tripId: string) {
 
         deleteParticipant,
 
-        refetch: fetchParticipants,
-
     };
-
 
 }

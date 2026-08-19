@@ -1,11 +1,16 @@
-import {User} from "@/types/user";
+export type ParticipantRole = "ADMIN" | "EDITOR" | "VIEWER"
+
+export interface ParticipantUser {
+    id: string
+    name: string
+    email: string
+}
 
 export interface Participant {
     id: string
-    user: User
+    user: ParticipantUser
     role: ParticipantRole
 }
-export type ParticipantRole = "ADMIN" | "EDITOR" | "VIEWER"
 
 export interface CreateParticipantRequest {
     userId: string

@@ -1,10 +1,9 @@
 package JourneySync.demo.controller;
 
-import JourneySync.demo.dto.CreateTripRequest;
+import JourneySync.demo.dto.request.CreateTripRequest;
 import JourneySync.demo.dto.DebtSettlementDTO;
 import JourneySync.demo.dto.ParticipantBalanceDTO;
-import JourneySync.demo.dto.TripResponse;
-import JourneySync.demo.dto.request.CreateParticipantRequest;
+import JourneySync.demo.dto.response.TripResponse;
 import JourneySync.demo.service.BalanceService;
 import JourneySync.demo.service.ParticipantService;
 import JourneySync.demo.service.TripService;

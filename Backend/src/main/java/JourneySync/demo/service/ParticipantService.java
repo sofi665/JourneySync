@@ -1,6 +1,6 @@
 package JourneySync.demo.service;
 
-import JourneySync.demo.dto.ParticipantResponse;
+import JourneySync.demo.dto.response.ParticipantResponse;
 import JourneySync.demo.dto.request.CreateParticipantRequest;
 import JourneySync.demo.dto.request.UpdateParticipantRequest;
 import jakarta.transaction.Transactional;

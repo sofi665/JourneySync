@@ -1,15 +1,16 @@
 import api from "./api";
 import {
-    CreateParticipantRequest,
     Participant,
+    CreateParticipantRequest,
     UpdateParticipantRequest,
 } from "@/types/participant";
-
-export const participantsService = {
+export const participantService = {
 
     async getParticipants(tripId: string): Promise<Participant[]> {
 
-        const response = await api.get(`/trips/${tripId}/participants`);
+        const response = await api.get(
+            `/trips/${tripId}/participants`
+        );
 
         return response.data;
 
@@ -53,6 +54,6 @@ export const participantsService = {
             `/trips/${tripId}/participants/${participantId}`
         );
 
-    },
+    }
 
 };

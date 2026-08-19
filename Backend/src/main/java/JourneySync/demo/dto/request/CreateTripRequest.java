@@ -1,12 +1,11 @@
-package JourneySync.demo.dto;
+package JourneySync.demo.dto.request;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
-public record TripResponse(
-        UUID id,
+public record CreateTripRequest(
         String title,
         String description,
         LocalDate startDate,
         LocalDate endDate
-) {}
+) {
+}
