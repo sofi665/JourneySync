@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: journeysync-backend
+  namespace: journeysync
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: journeysync-backend
+
+  template:
+    metadata:
+      labels:
+        app: journeysync-backend
+
+    spec:
+      containers:
+        - name: backend
+          image: journeysync-backend:latest
+
+          imagePullPolicy: Never
+
+          ports:
+            - containerPort: 8080
+
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres:5432/travel_planner
+
+            - name: SPRING_DATASOURCE_USERNAME
+              value: postgres
+
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: journeysync-secrets
+                  key: postgres-password
+
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: journeysync-secrets
+                  key: jwt-secret
+
+            - name: JWT_EXPIRATION
+              value: "86400000"
+
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 10
+
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 40
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 5
+
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"

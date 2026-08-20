@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: journeysync-frontend
+  namespace: journeysync
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: journeysync-frontend
+
+  template:
+    metadata:
+      labels:
+        app: journeysync-frontend
+
+    spec:
+      containers:
+        - name: frontend
+          image: journeysync-frontend:latest
+
+          imagePullPolicy: Never
+
+          ports:
+            - containerPort: 3000
+
+          env:
+            - name: NODE_ENV
+              value: production
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 20
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"

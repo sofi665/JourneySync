@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: journeysync-ingress
+  namespace: journeysync
+spec:
+  ingressClassName: nginx
+
+  rules:
+    - host: journeysync.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: journeysync-frontend
+                port:
+                  number: 3000
