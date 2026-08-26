@@ -71,4 +71,21 @@ jobs:
         run: docker build -t journeysync-backend:latest ./Backend
 
       - name: Build frontend image
-        run: docker build --build-arg NEXT_PUBLIC_API_URL=http://localhost:30080 -t journeysync-frontend:latest ./frontend
+        run: docker build \
+          --build-arg NEXT_PUBLIC_API_URL=http://localhost:30080 \
+          -t journeysync-frontend:latest ./frontend
+
+  gitleaks:
+    name: Security - Gitleaks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
