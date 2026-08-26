@@ -1,33 +1,75 @@
-import { Navbar } from "@/components/navbar";
-import { DashboardHero } from "@/features/dashboard/dashboard-hero";
-import { PageContainer } from "@/components/page-container";
-import { StatsGrid } from "@/features/dashboard/stats-grid";
-import { UpcomingTripCard } from "@/features/dashboard/upcoming-tripcard";
-import { QuickActions } from "@/features/dashboard/quick-actions";
-import { RecentTrips } from "@/features/dashboard/recent-trips";
+import Link from "next/link";
 
-export default function HomePage() {
+export default function LandingPage() {
     return (
-        /* Cambiado bg-[#f7f7fb] por bg-background para respetar los nuevos tokens globales */
-        <div className="min-h-screen bg-background">
-            <Navbar />
+        <main className="min-h-screen bg-background">
+            <section className="mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center px-6 py-16 text-center">
 
-            <PageContainer className="space-y-10 py-8">
-                <DashboardHero userName="Sofía" />
+                <div className="max-w-3xl">
+                    <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-emerald-600">
+                        JourneySync
+                    </p>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div className="lg:col-span-2">
-                        <UpcomingTripCard />
-                    </div>
+                    <h1 className="text-4xl font-bold tracking-tight text-foreground md:text-6xl">
+                        Planificá tus viajes de forma colaborativa.
+                    </h1>
 
-                    <div className="space-y-6">
-                        <QuickActions />
-                        <StatsGrid />
+                    <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">
+                        Organizá viajes, actividades, gastos y tareas
+                        junto a las personas que te acompañan.
+                    </p>
+
+                    <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
+                        <Link
+                            href="/login"
+                            className="rounded-full bg-emerald-500 px-8 py-3 font-semibold text-white transition hover:bg-emerald-600"
+                        >
+                            Iniciar sesión
+                        </Link>
+
+                        <Link
+                            href="/register"
+                            className="rounded-full border border-border px-8 py-3 font-semibold text-foreground transition hover:bg-muted"
+                        >
+                            Crear una cuenta
+                        </Link>
                     </div>
                 </div>
 
-                <RecentTrips />
-            </PageContainer>
-        </div>
+                <div className="mt-20 grid w-full max-w-4xl grid-cols-1 gap-6 md:grid-cols-3">
+
+                    <div className="rounded-2xl border border-border bg-card p-6">
+                        <h2 className="font-semibold text-card-foreground">
+                            Viajes
+                        </h2>
+
+                        <p className="mt-2 text-sm text-muted-foreground">
+                            Creá y organizá todos tus viajes desde un solo lugar.
+                        </p>
+                    </div>
+
+                    <div className="rounded-2xl border border-border bg-card p-6">
+                        <h2 className="font-semibold text-card-foreground">
+                            Actividades
+                        </h2>
+
+                        <p className="mt-2 text-sm text-muted-foreground">
+                            Planificá lugares y actividades para cada aventura.
+                        </p>
+                    </div>
+
+                    <div className="rounded-2xl border border-border bg-card p-6">
+                        <h2 className="font-semibold text-card-foreground">
+                            Gastos
+                        </h2>
+
+                        <p className="mt-2 text-sm text-muted-foreground">
+                            Llevá un registro de los gastos de cada viaje.
+                        </p>
+                    </div>
+
+                </div>
+            </section>
+        </main>
     );
 }

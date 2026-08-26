@@ -23,7 +23,6 @@ export default function LoginPage() {
         setLoading(true);
 
         try {
-
             const response = await login({
                 email,
                 password
@@ -39,20 +38,14 @@ export default function LoginPage() {
                 JSON.stringify(response.user)
             );
 
-            router.push("/trips");
-
+            router.push("/home");
         } catch (error) {
-
             console.error(error);
-
             setError(
                 "El email o la contraseña son incorrectos."
             );
-
         } finally {
-
             setLoading(false);
-
         }
     };
 

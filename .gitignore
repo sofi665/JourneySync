@@ -12,3 +12,8 @@ target/
 .vscode/
 .DS_Store
 .env
+
+# Terraform
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.*

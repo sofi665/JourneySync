@@ -15,12 +15,28 @@ export default function TripsPage() {
 
     useEffect(() => {
         let active = true
-        tripsService.getTrips().then((data) => {
-            if (active) {
-                setTrips(data)
-                setLoading(false)
+
+        const fetchTrips = async () => {
+            try {
+                const data = await tripsService.getTrips()
+                if (active) {
+                    // Nos aseguramos de que data sea un array sí o sí
+                    setTrips(Array.isArray(data) ? data : [])
+                }
+            } catch (error) {
+                console.error("Error al cargar los viajes:", error)
+                if (active) {
+                    setTrips([])
+                }
+            } finally {
+                if (active) {
+                    setLoading(false)
+                }
             }
-        })
+        }
+
+        fetchTrips()
+
         return () => {
             active = false
         }
