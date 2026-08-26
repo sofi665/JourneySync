@@ -71,6 +71,4 @@ jobs:
         run: docker build -t journeysync-backend:latest ./Backend
 
       - name: Build frontend image
-        run: docker build \
-          --build-arg NEXT_PUBLIC_API_URL=http://localhost:30080 \
-          -t journeysync-frontend:latest ./frontend
+        run: docker build --build-arg NEXT_PUBLIC_API_URL=http://localhost:30080 -t journeysync-frontend:latest ./frontend
