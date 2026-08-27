@@ -91,6 +91,9 @@ La arquitectura de despliegue está compuesta por:
               |                 +                      |
               |               Alertas                   |
               +----------------------------------------+
+              
+```
+              
 
 En Kubernetes, el backend y frontend se ejecutan con múltiples réplicas y el backend dispone de escalado horizontal mediante HPA.
 
