@@ -1,13 +1,17 @@
 name: JourneySync CD
 
 on:
-  push:
+  workflow_run:
+    workflows: ["JourneySync CI"]
+    types:
+      - completed
     branches:
       - DevOps-final
 
 jobs:
   docker:
     name: Build and Push Docker Images
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     permissions:
@@ -17,6 +21,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
+        with:
+          ref: DevOps-final
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
@@ -32,7 +38,7 @@ jobs:
           push: true
           tags: |
             ghcr.io/sofi665/journeysync-backend:latest
-            ghcr.io/sofi665/journeysync-backend:${{ github.sha }}
+            ghcr.io/sofi665/journeysync-backend:${{ github.event.workflow_run.head_sha }}
 
       - name: Build and push frontend image
         uses: docker/build-push-action@v6
@@ -43,4 +49,4 @@ jobs:
             NEXT_PUBLIC_API_URL=http://localhost:30080
           tags: |
             ghcr.io/sofi665/journeysync-frontend:latest
-            ghcr.io/sofi665/journeysync-frontend:${{ github.sha }}
+            ghcr.io/sofi665/journeysync-frontend:${{ github.event.workflow_run.head_sha }}
