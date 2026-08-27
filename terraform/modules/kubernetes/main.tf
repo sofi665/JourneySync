@@ -11,7 +11,7 @@ resource "kubernetes_config_map" "journeysync" {
   }
 
   data = {
-    environment = "local"
+    environment = var.environment
   }
 }
 
@@ -22,7 +22,7 @@ resource "kubernetes_deployment" "backend" {
   }
 
   spec {
-    replicas = 1
+    replicas = 2
 
     selector {
       match_labels = {
@@ -145,8 +145,8 @@ resource "kubernetes_service" "backend" {
       node_port   = 30080
     }
   }
-
 }
+
 resource "kubernetes_deployment" "frontend" {
   metadata {
     name      = "journeysync-frontend"
@@ -154,7 +154,7 @@ resource "kubernetes_deployment" "frontend" {
   }
 
   spec {
-    replicas = 1
+    replicas = 2
 
     selector {
       match_labels = {
@@ -220,6 +220,7 @@ resource "kubernetes_deployment" "frontend" {
     }
   }
 }
+
 resource "kubernetes_service" "frontend" {
   metadata {
     name      = "journeysync-frontend"
