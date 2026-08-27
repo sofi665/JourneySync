@@ -31,6 +31,7 @@ jobs:
       - name: Run backend tests
         run: ./mvnw test
 
+
   frontend:
     name: Frontend - Build
     runs-on: ubuntu-latest
@@ -56,6 +57,7 @@ jobs:
       - name: Build frontend
         run: npm run build
 
+
   docker:
     name: Docker - Build
     runs-on: ubuntu-latest
@@ -68,10 +70,25 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Build backend image
-        run: docker build -t journeysync-backend:latest ./Backend
+        run: docker build --no-cache -t journeysync-backend:latest ./Backend
+
+      - name: Verify backend image
+        run: |
+          echo "=== Backend image information ==="
+          docker image inspect journeysync-backend:latest
+
+          echo "=== Backend OS ==="
+          docker run --rm --entrypoint sh journeysync-backend:latest -c "cat /etc/os-release"
+
+          echo "=== Check pebble ==="
+          docker run --rm --entrypoint sh journeysync-backend:latest -c "which pebble || true"
 
       - name: Build frontend image
-        run: docker build --build-arg NEXT_PUBLIC_API_URL=http://localhost:30080 -t journeysync-frontend:latest ./frontend
+        run: docker build \
+          --build-arg NEXT_PUBLIC_API_URL=http://localhost:30080 \
+          -t journeysync-frontend:latest \
+          ./frontend
+
 
   gitleaks:
     name: Security - Gitleaks
@@ -88,6 +105,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+
   semgrep:
     name: Security - Semgrep SAST
     runs-on: ubuntu-latest
@@ -101,6 +119,7 @@ jobs:
         with:
           config: p/default
 
+
   trivy:
     name: Security - Trivy
     runs-on: ubuntu-latest
@@ -112,10 +131,24 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Build backend image
-        run: docker build -t journeysync-backend:latest ./Backend
+        run: docker build --no-cache -t journeysync-backend:latest ./Backend
+
+      - name: Verify backend image before Trivy
+        run: |
+          echo "=== Backend image information ==="
+          docker image inspect journeysync-backend:latest
+
+          echo "=== Backend OS ==="
+          docker run --rm --entrypoint sh journeysync-backend:latest -c "cat /etc/os-release"
+
+          echo "=== Check pebble ==="
+          docker run --rm --entrypoint sh journeysync-backend:latest -c "which pebble || true"
 
       - name: Build frontend image
-        run: docker build --build-arg NEXT_PUBLIC_API_URL=http://localhost:30080 -t journeysync-frontend:latest ./frontend
+        run: docker build \
+          --build-arg NEXT_PUBLIC_API_URL=http://localhost:30080 \
+          -t journeysync-frontend:latest \
+          ./frontend
 
       - name: Scan backend image
         uses: aquasecurity/trivy-action@v0.36.0
