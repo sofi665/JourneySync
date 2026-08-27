@@ -100,3 +100,37 @@ jobs:
         uses: semgrep/semgrep-action@v1
         with:
           config: p/default
+
+  trivy:
+    name: Security - Trivy
+    runs-on: ubuntu-latest
+    needs:
+      - docker
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Build backend image
+        run: docker build -t journeysync-backend:latest ./Backend
+
+      - name: Build frontend image
+        run: docker build --build-arg NEXT_PUBLIC_API_URL=http://localhost:30080 -t journeysync-frontend:latest ./frontend
+
+      - name: Scan backend image
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          image-ref: journeysync-backend:latest
+          format: table
+          exit-code: '1'
+          ignore-unfixed: true
+          severity: CRITICAL,HIGH
+
+      - name: Scan frontend image
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          image-ref: journeysync-frontend:latest
+          format: table
+          exit-code: '1'
+          ignore-unfixed: true
+          severity: CRITICAL,HIGH
